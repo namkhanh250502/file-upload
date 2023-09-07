@@ -1,25 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import path from 'path';
-import { DtoClass } from 'src/dto/dto.class';
+import { DtoCreateClass } from 'src/dto/dto.createclass';
+import { DtoUpdateClass } from 'src/dto/dto.updateclass';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class ClassService {
     constructor(private prisma: PrismaService) {}
 
-    getAll():Promise<DtoClass[]> {
+    getAll():Promise<DtoCreateClass[]> {
         return this.prisma.renamedclass.findMany()
     }
 
-    get(class_id: number):Promise<DtoClass> {
+    get(class_id: number):Promise<DtoCreateClass> {
         return this.prisma.renamedclass.findUnique({where:{class_id:Number(class_id)}})
     }
 
-    create(data:DtoClass):Promise<DtoClass> {
+    create(data:DtoCreateClass):Promise<DtoCreateClass> {
         return this.prisma.renamedclass.create({data})
     }
 
-    upload(data:DtoClass, URL:Express.Multer.File):Promise<DtoClass> {
+    upload(data:DtoUpdateClass, URL:Express.Multer.File):Promise<DtoUpdateClass> {
         return this.prisma.renamedclass.create({
              data:{
                 class_code: Number(data.class_code),
@@ -28,8 +29,8 @@ export class ClassService {
     }})
     }
 
-    update(class_id: number, data: DtoClass,
-        URL: Express.Multer.File):Promise<DtoClass> {
+    update(class_id: number, data: DtoUpdateClass,
+        URL: Express.Multer.File):Promise<DtoUpdateClass> {
         return this.prisma.renamedclass.update({
             where:{class_id:Number(class_id)},
             data:{
@@ -41,7 +42,7 @@ export class ClassService {
         })
     }
 
-    delete(class_id: number):Promise<DtoClass> {
+    delete(class_id: number):Promise<DtoCreateClass> {
         return this.prisma.renamedclass.delete({where:{class_id:Number(class_id)}})
     }
 }

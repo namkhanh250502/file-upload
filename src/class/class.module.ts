@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma.service';
 import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
-  imports:[MulterModule.register({dest:'./uploads'})],
+  imports:[],
   controllers: [ClassController],
   providers: [ClassService,PrismaService]
 })

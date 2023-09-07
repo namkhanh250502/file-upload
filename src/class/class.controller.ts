@@ -1,25 +1,27 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, UseInterceptors, UploadedFile  } from '@nestjs/common';
 import { ClassService } from './class.service';
-import { DtoClass } from 'src/dto/dto.class';
+
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { DtoCreateClass } from 'src/dto/dto.createclass';
+import { DtoUpdateClass } from 'src/dto/dto.updateclass';
 
 @Controller('class')
 export class ClassController {
     constructor(private readonly classService: ClassService) {}
 
     @Get('get')
-    getAll():Promise<DtoClass[]> {
+    getAll():Promise<DtoCreateClass[]> {
         return this.classService.getAll()
     }
 
     @Get('get/:class_id')
-    get(@Param('class_id') class_id: number):Promise<DtoClass> {
+    get(@Param('class_id') class_id: number):Promise<DtoCreateClass> {
         return this.classService.get(class_id)
     }
 
     @Post('post')
-    create(@Body() data: DtoClass):Promise<DtoClass> {
+    create(@Body() data: DtoCreateClass):Promise<DtoCreateClass> {
         return this.classService.create(data)
     }
 
@@ -34,14 +36,14 @@ export class ClassController {
                     },
                 })
             }))
-    update(@Param('class_id') class_id:number,@Body() data:DtoClass,@UploadedFile() URL:Express.Multer.File):Promise<DtoClass> {
+    update(@Param('class_id') class_id:number,@Body() data:DtoUpdateClass,@UploadedFile() URL:Express.Multer.File):Promise<DtoUpdateClass> {
         console.log('URL: ', URL.path);
         console.log('data: ', data);
         return this.classService.update(class_id,data,URL)
     }
 
     @Delete('delete/:class_id')
-    delete(@Param('class_id') class_id: number):Promise<DtoClass> {
+    delete(@Param('class_id') class_id: number):Promise<DtoCreateClass> {
         return this.classService.delete(class_id)
     }
 
@@ -55,7 +57,7 @@ export class ClassController {
         })
 
     }))
-    upload(@UploadedFile() URL: Express.Multer.File, data: DtoClass):Promise<DtoClass>{
+    upload(@UploadedFile() URL: Express.Multer.File, data: DtoCreateClass):Promise<DtoCreateClass>{
         return this.classService.upload(data,URL)
     }
 
