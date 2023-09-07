@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model has been renamed to 'Renamedclass' during introspection, because the original name 'class' is reserved.
+model Renamedclass {
+  class_id      Int             @id @default(autoincrement())
+  class_name    String?         @db.VarChar(10)
+  class_code    Int?
+  URL           String?         @db.VarChar(100)
+  class_teacher class_teacher[]
+
+  @@map("class")
+}
+
+model class_teacher {
+  ct_id        Int           @id @default(autoincrement())
+  class_id     Int?
+  teacher_id   Int?
+  Renamedclass Renamedclass? @relation(fields: [class_id], references: [class_id], onDelete: Cascade, onUpdate: Restrict, map: "class_teacher_ibfk_1")
+  teacher      teacher?      @relation(fields: [teacher_id], references: [teacher_id], onDelete: Cascade, onUpdate: Restrict, map: "class_teacher_ibfk_2")
+
+  @@unique([class_id, teacher_id], map: "UC_ct")
+  @@index([teacher_id], map: "class_teacher_ibfk_2")
+}
+
+model teacher {
+  teacher_id      Int             @id @default(autoincrement())
+  teacher_code    Int?
+  teacher_phone   Int?
+  teacher_name    String          @db.VarChar(50)
+  teacher_subject String?         @db.VarChar(50)
+  class_teacher   class_teacher[]
+}
