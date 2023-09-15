@@ -18,6 +18,7 @@ export class TeacherController {
 
     @Post('post')
     create(@Body() data: DtoTeacher):Promise<DtoTeacher> {
+        console.log('data: ', data);
         return this.teachService.create(data)
     }
 

@@ -10,9 +10,9 @@ datasource db {
 /// This model has been renamed to 'Renamedclass' during introspection, because the original name 'class' is reserved.
 model Renamedclass {
   class_id      Int             @id @default(autoincrement())
-  class_name    String?         @db.VarChar(10)
+  class_name    String?         
   class_code    Int?
-  URL           String?         @db.VarChar(100)
+  URL           String?        
   class_teacher class_teacher[]
 
   @@map("class")
@@ -33,7 +33,7 @@ model teacher {
   teacher_id      Int             @id @default(autoincrement())
   teacher_code    Int?
   teacher_phone   Int?
-  teacher_name    String?          @db.VarChar(50)
-  teacher_subject String?         @db.VarChar(50)
+  teacher_name    String?         
+  teacher_subject String?         
   class_teacher   class_teacher[]
 }
